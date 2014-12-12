@@ -8,5 +8,6 @@
 .course-content ul.weeks li.section .right img.icon { padding: 0 0 4px 0;}
 .course-content ul.weeks li.section .left .section-handle img.icon { padding:0; vertical-align: baseline; }
 .course-content ul.weeks li.section .suggestion {
-    color: #FEFEFE;
+    color: #717171;
+    font-style: italic;
 }

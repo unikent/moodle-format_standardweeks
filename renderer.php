@@ -63,24 +63,49 @@ class format_standardweeks_renderer extends format_section_renderer_base {
     }
 
     /**
-     * Generate html for a section summary text
+     * Generate the display of the header part of a section before
+     * course modules are included
      *
      * @param stdClass $section The course_section entry from DB
+     * @param stdClass $course The course entry from DB
+     * @param bool $onsectionpage true if being printed on a single-section page
+     * @param int $sectionreturn The section to return to after an action
+     * @return string HTML to output.
+     */
+    protected function section_header($section, $course, $onsectionpage, $sectionreturn=null) {
+        $context = \context_course::instance($course->id);
+        if (empty($section->name) && has_capability('moodle/course:update', $context)) {
+            $section->name = "{$course->shortname}: {$course->fullname}";
+        }
+
+        return parent::section_header($section, $course, $onsectionpage, $sectionreturn);
+    }
+
+    /**
+     * Generate html for a section summary text
+     *
+     * @param section_info $section The course_section entry from DB
      * @return string HTML to output.
      */
     protected function format_summary_text($section) {
-        global $PAGE;
+        global $COURSE, $PAGE;
 
-        $context = context_course::instance($section->course);
+        // Don't know whats happening.
+        if ($COURSE->id !== $section->course) {
+            return parent::format_summary_text($section);
+        }
+
+        $context = \context_course::instance($section->course);
 
         if (empty($section->summary) && has_capability('moodle/course:update', $context)) {
-            $section->summary = <<<HTML
-                <div class="suggestion">
-                    <p>This week focuses on....</p>
-                    <p>Please read the core readings before the lecture and be prepared to discuss both during the seminar.
-                    The additional reading material will give more context but is not essential.</p>
-                </div>
-HTML;
+            $summary = '';
+            if ($section->section === 0) {
+                $summary = get_string('firstsectiondescsuggestion', 'format_standardweeks');
+            } else {
+                $summary = get_string('sectiondescsuggestion', 'format_standardweeks');
+            }
+
+            $section->summary = "<div class=\"suggestion\">{$summary}</div>";
             $section->summaryformat = FORMAT_HTML;
         }
 

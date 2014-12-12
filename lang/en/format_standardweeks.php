@@ -29,3 +29,22 @@ $string['sectionname'] = 'Week {$a->number} - {$a->title}';
 $string['assessmentsectionname'] = 'Assessment Info';
 $string['hidefromothers'] = 'Hide week';
 $string['showfromothers'] = 'Show week';
+
+$string['firstsectiondescsuggestion'] = '
+<p>This module explores representations of illness and disability in American literature and culture, with a particular emphasis on contemporary illness
+                        narratives.
+                        The module follows a thematic framework and is divided into three sections.
+The first section (weeks 13-15) has a more historical flavour and considers the legacy of the nineteenth-century freak show, prosthetic bodies in post-war
+and contemporary American culture, and key moments in U.S. disability activism. The second section (weeks 16-21) explores the aesthetics and politics of
+                        illness, using as case studies cancer narratives and AIDS representations from the twentieth century. It also focuses on the "medicalization” of emotions,
+                        statistical panic, and the fear of death as addressed in postmodern fiction and memoirs that consider illness in relation to age (adolescence) and the
+                        environment. The final section (weeks 22-23)  turns to the depiction of doctors and patients in literature and popular culture, cross-cultural perspectives
+                        on health and illness, and the rise of medical humanities as an academic field.</p>
+                        <h4>How to use this module</h4>
+                        <p>I will add lecture notes weekly, usually two hours before the lecture itself.
+                        You are expected to access Moodle at least once per week in order to access required material, activities and readings.
+                        Where they are used, you should engage in forums, participate in online activities and be able to communicate with other students and lecturers via Moodle.
+                        Please notify me or an administrator if you have difficulty accessing an activity, reading or material.</p>';
+
+$string['sectiondescsuggestion'] = '<p>This week focuses on....</p>
+<p>Please read the core readings before the lecture and be prepared to discuss both during the seminar. The additional reading material will give more context but is not essential.</p>';
