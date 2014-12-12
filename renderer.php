@@ -96,17 +96,31 @@ class format_standardweeks_renderer extends format_section_renderer_base {
         }
 
         $context = \context_course::instance($section->course);
+        if (!has_capability('moodle/course:update', $context)) {
+            return parent::format_summary_text($section);
+        }
 
-        if (empty($section->summary) && has_capability('moodle/course:update', $context)) {
+        if (empty($section->summary)) {
             $summary = '';
             if ($section->section === 0) {
                 $summary = get_string('firstsectiondescsuggestion', 'format_standardweeks');
+            } elseif ($section->section === 1) {
+                // Is the section title 'Assessment info'?
+                $assessmenttitle = get_string('assessmentinfotitle', 'format_standardweeks');
+                if ($section->name !== $assessmenttitle) {
+                    $summary = get_string('assessmentinfosuggestion', 'format_standardweeks');
+                }
             } else {
                 $summary = get_string('sectiondescsuggestion', 'format_standardweeks');
             }
 
             $section->summary = "<div class=\"suggestion\">{$summary}</div>";
             $section->summaryformat = FORMAT_HTML;
+        }
+
+        if ($section->section === 0 && strpos($section->section, 'How to use this module') === false) {
+            $suggestion = get_string('howtousethissuggestion', 'format_standardweeks');
+            $summary .= "<div class=\"suggestion\">{$suggestion}</div>";
         }
 
         return parent::format_summary_text($section);
