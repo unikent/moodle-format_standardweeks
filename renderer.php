@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/course/format/renderer.php');
-require_once($CFG->dirroot . '/course/format/weeks/lib.php');
+require_once($CFG->dirroot . '/course/format/standardweeks/lib.php');
 
 
 /**
@@ -60,5 +60,30 @@ class format_standardweeks_renderer extends format_section_renderer_base {
      */
     protected function page_title() {
         return get_string('weeklyoutline');
+    }
+
+    /**
+     * Generate html for a section summary text
+     *
+     * @param stdClass $section The course_section entry from DB
+     * @return string HTML to output.
+     */
+    protected function format_summary_text($section) {
+        global $PAGE;
+
+        $context = context_course::instance($section->course);
+
+        if (empty($section->summary) && has_capability('moodle/course:update', $context)) {
+            $section->summary = <<<HTML
+                <div class="suggestion">
+                    <p>This week focuses on....</p>
+                    <p>Please read the core readings before the lecture and be prepared to discuss both during the seminar.
+                    The additional reading material will give more context but is not essential.</p>
+                </div>
+HTML;
+            $section->summaryformat = FORMAT_HTML;
+        }
+
+        return parent::format_summary_text($section);
     }
 }

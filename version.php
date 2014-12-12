@@ -25,6 +25,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2014120001;
+$plugin->version   = 2014120002;
 $plugin->requires  = 2014050800;
 $plugin->component = 'format_standardweeks';
