@@ -50,7 +50,7 @@ $string['sectiondescsuggestion'] = '<p>This week focuses on....</p>
 <p>Please read the core readings before the lecture and be prepared to discuss both during the seminar. The additional reading material will give more context but is not essential.</p>';
 
 $string['assessmentinfotitle'] = 'Assessment Information';
-$string['assessmentinfosuggestion'] = '<p>We recommend you convert this section into an \"Assessment Information\" section.</p>
+$string['assessmentinfosuggestion'] = '<p>We recommend you convert this section into an "Assessment Information" section.</p>
 <p>You will be assessed on two essays, each of which contributes 20% of the total, and an exam, which makes up the other 60% of your total mark.
 Essays are submitted through Turnitin (there is a separate guide on submitting your assignment).
 The link for you to submit work is below and will be active one week before the due date.</p>';

@@ -25,7 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/course/format/renderer.php');
+require_once($CFG->dirroot . '/course/format/weeks/renderer.php');
 require_once($CFG->dirroot . '/course/format/standardweeks/lib.php');
 
 
@@ -37,31 +37,7 @@ require_once($CFG->dirroot . '/course/format/standardweeks/lib.php');
  * @copyright  2014 Skylar Kelty <S.Kelty@kent.ac.uk>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class format_standardweeks_renderer extends format_section_renderer_base {
-    /**
-     * Generate the starting container html for a list of sections
-     * @return string HTML to output.
-     */
-    protected function start_section_list() {
-        return html_writer::start_tag('ul', array('class' => 'weeks'));
-    }
-
-    /**
-     * Generate the closing container html for a list of sections
-     * @return string HTML to output.
-     */
-    protected function end_section_list() {
-        return html_writer::end_tag('ul');
-    }
-
-    /**
-     * Generate the title for this section page
-     * @return string the page title
-     */
-    protected function page_title() {
-        return get_string('weeklyoutline');
-    }
-
+class format_standardweeks_renderer extends format_weeks_renderer {
     /**
      * Generate the display of the header part of a section before
      * course modules are included
@@ -120,7 +96,7 @@ class format_standardweeks_renderer extends format_section_renderer_base {
 
         if ($section->section === 0 && strpos($section->section, 'How to use this module') === false) {
             $suggestion = get_string('howtousethissuggestion', 'format_standardweeks');
-            $summary .= "<div class=\"suggestion\">{$suggestion}</div>";
+            $section->summary .= "<div class=\"suggestion\">{$suggestion}</div>";
         }
 
         return parent::format_summary_text($section);
