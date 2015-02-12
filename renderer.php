@@ -47,7 +47,7 @@ class format_standardweeks_renderer extends format_weeks_renderer
         global $COURSE, $OUTPUT;
 
         $pre = '';
-        if ($COURSE->visible) {
+        if (!$COURSE->visible) {
             $pre = $OUTPUT->notification("This course is not currently visible to students!", "notifywarning");
         }
 
