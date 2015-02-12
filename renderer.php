@@ -47,8 +47,17 @@ class format_standardweeks_renderer extends format_weeks_renderer
         global $COURSE, $OUTPUT;
 
         $pre = '';
+
+        // Add error message if we have been scheduled for deletion.
+        $cmenabled = get_config("local_catman", "enable");
+        if ($cmenabled && \local_catman\core::is_scheduled($COURSE)) {
+            $time = \local_catman\core::get_expiration($COURSE);
+            $time = strftime("%d/%m/%Y %H:%M", $time);
+            $pre .= $OUTPUT->notification("This course has been scheduled for deletion on {$time}.");
+        }
+
         if (!$COURSE->visible) {
-            $pre = $OUTPUT->notification("This course is not currently visible to students!", "notifywarning");
+            $pre .= $OUTPUT->notification('This course is not currently visible to students.', 'notifywarning');
         }
 
         return $pre . html_writer::start_tag('ul', array('class' => 'weeks'));
