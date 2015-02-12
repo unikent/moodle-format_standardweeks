@@ -11,3 +11,7 @@
     color: #717171;
     font-style: italic;
 }
+
+.course-content .empty_buttons button {
+    margin-right: 10px;
+}

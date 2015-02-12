@@ -104,7 +104,7 @@ class format_standardweeks_renderer extends format_weeks_renderer
             $summary = '';
             if ($section->section === 0) {
                 $summary = get_string('firstsectiondescsuggestion', 'format_standardweeks');
-            } elseif ($section->section === 1) {
+            } else if ($section->section === 1) {
                 // Is the section title 'Assessment info'?
                 $assessmenttitle = get_string('assessmentinfotitle', 'format_standardweeks');
                 if ($section->name !== $assessmenttitle) {
@@ -124,5 +124,18 @@ class format_standardweeks_renderer extends format_weeks_renderer
         }
 
         return parent::format_summary_text($section);
+    }
+
+    /**
+     * This course, is empty.
+     */
+    public function print_empty($course, $modinfo) {
+        echo \html_writer::tag('h2',  get_string('emptytitle', 'format_standardweeks'));
+        echo \html_writer::tag('p',  get_string('emptydesc', 'format_standardweeks'));
+
+        echo \html_writer::start_tag('div', array('class' => 'empty_buttons'));
+        echo \html_writer::tag('button', get_string('emptynew', 'format_standardweeks'));
+        echo \html_writer::tag('button', get_string('emptyrollover', 'format_standardweeks'));
+        echo \html_writer::end_tag('div');
     }
 }

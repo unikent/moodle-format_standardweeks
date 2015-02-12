@@ -39,7 +39,12 @@ $renderer = $PAGE->get_renderer('format_standardweeks');
 if (!empty($displaysection)) {
     $renderer->print_single_section_page($course, null, null, null, null, $displaysection);
 } else {
-    $renderer->print_multiple_section_page($course, null, null, null, null);
+    $modinfo = get_fast_modinfo($course);
+    if (empty($modinfo->get_cms())) {
+        $renderer->print_empty($course, $modinfo);
+    } else {
+        $renderer->print_multiple_section_page($course, null, null, null, null);
+    }
 }
 
 $PAGE->requires->js('/course/format/weeks/format.js');
