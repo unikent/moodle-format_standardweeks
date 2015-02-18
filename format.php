@@ -40,11 +40,12 @@ if (!empty($displaysection)) {
     $renderer->print_single_section_page($course, null, null, null, null, $displaysection);
 } else {
     $modinfo = get_fast_modinfo($course);
-    if (empty($modinfo->get_cms())) {
+    if (empty($modinfo->get_cms()) && !$PAGE->user_is_editing()) {
         $renderer->print_empty($course, $modinfo);
     } else {
         $renderer->print_multiple_section_page($course, null, null, null, null);
     }
 }
 
+$PAGE->requires->js('/course/format/standardweeks/format.js');
 $PAGE->requires->js('/course/format/weeks/format.js');
