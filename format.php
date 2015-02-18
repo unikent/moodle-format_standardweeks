@@ -47,5 +47,5 @@ if (!empty($displaysection)) {
     }
 }
 
-$PAGE->requires->js('/course/format/standardweeks/format.js');
+$PAGE->requires->js('/course/format/standardweeks/javascript/format.js');
 $PAGE->requires->js('/course/format/weeks/format.js');

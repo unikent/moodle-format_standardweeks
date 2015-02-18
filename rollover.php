@@ -33,6 +33,29 @@ $PAGE->set_pagelayout('admin');
 echo $OUTPUT->header();
 echo $OUTPUT->heading('Rollover');
 
-echo "This feature has not yet been implemented.";
+$buttons = array();
+$options = $CFG->kent->paths;
+foreach ($options as $name => $url) {
+	$ucname = ucwords($name);
+	$buttons[] = "<label class=\"btn btn-default\"><input type=\"radio\" name=\"moodle\" data-uri=\"{$url}\" id=\"moodle-{$name}\" autocomplete=\"off\"> {$ucname}</label>";
+}
+$buttons = implode(' ', $buttons);
+
+echo <<<HTML5
+<div class="bootstrap">
+	<form class="form-horizontal">
+	<p>Which Moodle would you like to rollover from?</p>
+	<div id="moodle-select" class="btn-group" data-toggle="buttons">
+		$buttons
+	</div>
+	<div class="form-group">
+		<div class="col-sm-4">
+			<input type="email" class="form-control" id="search" placeholder="Search by module code">
+		</div>
+	</div>
+	<div id="rollover-options"></div>
+	</form>
+</div>
+HTML5;
 
 echo $OUTPUT->footer();
