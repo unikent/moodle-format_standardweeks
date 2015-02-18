@@ -25,7 +25,7 @@
 
 define('AJAX_SCRIPT', true);
 
-require_once('../../../../config.php');
+require_once(dirname(__FILE__) . '/../../../../config.php');
 require_once($CFG->dirroot . '/course/lib.php');
 require_once($CFG->dirroot . '/mod/aspirelists/lib.php');
 require_once($CFG->dirroot . '/mod/forum/lib.php');

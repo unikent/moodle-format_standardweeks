@@ -16,4 +16,15 @@ $(function() {
 			}
 		});
 	});
+
+	$("#action-rollover").on("click", function() {
+		var id = $(this).attr('data-id');
+		window.location = M.cfg.wwwroot + "/course/format/standardweeks/rollover.php?id=" + id;
+	});
+
+	$("#action-merge").on("click", function() {
+		var id = $(this).attr('data-id');
+		window.location = M.cfg.wwwroot + "/course/format/standardweeks/merge.php?id=" + id;
+	});
 });
+
