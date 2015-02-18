@@ -12,7 +12,7 @@ $(function() {
 				'sesskey': M.cfg.sesskey
 			},
 			success: function() {
-				//window.location = window.location;
+				window.location = window.location;
 			}
 		});
 	});

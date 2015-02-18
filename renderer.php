@@ -131,9 +131,9 @@ class format_standardweeks_renderer extends format_weeks_renderer
      */
     public function print_empty($course, $modinfo) {
         echo \html_writer::tag('h2',  get_string('emptytitle', 'format_standardweeks'));
-        echo \html_writer::tag('p',  get_string('emptydesc', 'format_standardweeks'));
 
         echo \html_writer::start_tag('div', array('id' => 'formatbuttons'));
+        echo \html_writer::tag('p',  get_string('emptydesc', 'format_standardweeks'));
 
         echo \html_writer::start_tag('div', array('class' => 'row'));
 
