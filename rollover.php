@@ -43,7 +43,7 @@ foreach ($options as $name => $url) {
 $buttons = implode(' ', $buttons);
 
 echo <<<HTML5
-<div class="bootstrap">
+<div id="rollovercontainer" class="bootstrap" data-id="{$course->id}">
 	<form class="form-horizontal">
 		<p>Which Moodle would you like to rollover from?</p>
 		<div id="moodle-select" class="btn-group" data-toggle="buttons">

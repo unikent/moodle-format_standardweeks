@@ -17,7 +17,7 @@ $(function() {
 				'sesskey': M.cfg.sesskey
 			}
 		}).done(function(data) {
-			console.log(data);
+			$('#rollover-options').html(data.result);
 		});
 	};
 
@@ -29,5 +29,27 @@ $(function() {
 	$("#moodle-search").on("keyup", function() {
 		search = $(this).val();
 		refreshList();
+	});
+
+	// Do a rollover.
+	$('#rollover-options td.action button').on('click', function() {
+		var to = $("#rollovercontainer").attr('data-id');
+		var from = $(this).attr('data-id');
+
+		$("#rollovercontainer").html("<div class=\"text-center\"><i class=\"fa fa-spinner fa-spin\"></i></div>");
+
+		$.ajax({
+			url: M.cfg.wwwroot + "/course/format/standardweeks/ajax/rollover.php",
+			type: "POST",
+			data: {
+				'to': to,
+				'from': from,
+				'action': 'schedule',
+				'sesskey': M.cfg.sesskey
+			},
+			success: function() {
+				window.location = window.location;
+			}
+		});
 	});
 });

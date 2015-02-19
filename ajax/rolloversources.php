@@ -29,5 +29,23 @@ $search = required_param('search', PARAM_RAW_TRIMMED);
 
 $sources = \local_rollover\Sources::get_course_list($dist, "%{$search}%");
 
+$table = new html_table();
+$table->head = array('Moodle', 'Shortname', 'Fullname', 'Action');
+$table->colclasses = array('moodle', 'shortname', 'fullname', 'action');
+$table->id = 'rolloversources';
+$table->attributes['class'] = 'admintable generaltable';
+$table->data = array();
+
+foreach ($sources as $course) {
+	$table->data[] = array(
+        $course->moodle_dist,
+        $course->shortname,
+        $course->fullname,
+        '<button class="btn btn-default" data-id="' . $course->id . '">Rollover</button>'
+    );
+}
+
 echo $OUTPUT->header();
-echo json_encode($sources);
+echo json_encode(array(
+	'result' => \html_writer::table($table)
+));
