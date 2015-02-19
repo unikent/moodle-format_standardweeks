@@ -40,6 +40,7 @@ $course = $DB->get_record('course', array(
 ), '*', MUST_EXIST);
 
 $PAGE->set_context(context_course::instance($course->id));
+$PAGE->set_url('/course/format/standardweeks/ajax/fresh.php');
 
 // Add the forum.
 forum_get_course_forum($course->id, 'news');

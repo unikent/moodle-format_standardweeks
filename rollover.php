@@ -29,6 +29,7 @@ $PAGE->set_url('/course/format/standardweeks/rollover.php', array(
 ));
 $PAGE->set_context(context_course::instance($course->id));
 $PAGE->set_pagelayout('admin');
+$PAGE->requires->js('/course/format/standardweeks/javascript/rollover.js');
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading('Rollover');
@@ -44,16 +45,18 @@ $buttons = implode(' ', $buttons);
 echo <<<HTML5
 <div class="bootstrap">
 	<form class="form-horizontal">
-	<p>Which Moodle would you like to rollover from?</p>
-	<div id="moodle-select" class="btn-group" data-toggle="buttons">
-		$buttons
-	</div>
-	<div class="form-group">
-		<div class="col-sm-4">
-			<input type="email" class="form-control" id="search" placeholder="Search by module code">
+		<p>Which Moodle would you like to rollover from?</p>
+		<div id="moodle-select" class="btn-group" data-toggle="buttons">
+			$buttons
 		</div>
-	</div>
-	<div id="rollover-options"></div>
+		<div class="form-group">
+			<div class="col-sm-4">
+				<input type="email" class="form-control" id="moodle-search" placeholder="Search by module code">
+			</div>
+		</div>
+		<div id="rollover-options">
+			<p>Too many results! Try to use the options above to narrow it down a bit.</p>
+		</div>
 	</form>
 </div>
 HTML5;
