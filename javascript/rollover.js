@@ -31,6 +31,37 @@ $(function() {
 		refreshList();
 	});
 
+	// Refresh status loop.
+	var statusLoop = function(rolloverid) {
+		$.ajax({
+			url: M.cfg.wwwroot + "/course/format/standardweeks/ajax/rollover.php",
+			type: "POST",
+			data: {
+				'rolloverid': rolloverid,
+				'action': 'status',
+				'sesskey': M.cfg.sesskey
+			},
+			success: function(data) {
+				var percent = data.progress;
+				var status = data.status;
+
+				if (status == 'rollover_error') {
+					// Uh oh.
+					$("#rollovercontainer").html("<p>Something went wrong! Please refresh and try again or contact your FLT.</p>");
+					return;
+				}
+
+				if (percent > -1) {
+					$("#rollovercontainer .progress-bar").attr('aria-valuenow', percent);
+				}
+
+				$("#rollovercontainer .progress-bar").html(status);
+
+				statusLoop(rolloverid);
+			}
+		});
+	};
+
 	// Do a rollover.
 	$('#rollover-options td.action button').on('click', function() {
 		var to = $("#rollovercontainer").attr('data-id');
@@ -47,8 +78,15 @@ $(function() {
 				'action': 'schedule',
 				'sesskey': M.cfg.sesskey
 			},
-			success: function() {
-				window.location = window.location;
+			success: function(data) {
+				$("#rollovercontainer").html('
+					<div class="progress">
+						<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+							0%
+						</div>
+					</div>
+				');
+				statusLoop(data.rolloverid);
 			}
 		});
 	});
