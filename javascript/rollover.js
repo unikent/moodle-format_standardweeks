@@ -48,7 +48,7 @@ $(function() {
 
 			setTimeout(function() {
 				statusLoop()
-			}, 5000);
+			}, 10000);
 		});
 	};
 
