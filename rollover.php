@@ -53,7 +53,7 @@ echo <<<HTML5
 	<form class="form-horizontal">
 		<div class="form-group">
 			<div class="col-sm-4">
-				<input type="text" class="form-control" id="moodle-search" placeholder="Search by module code">
+				<input type="text" class="form-control" id="moodle-search" placeholder="Search by module code" autocomplete="off">
 			</div>
 		</div>
 	</form>
