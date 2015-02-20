@@ -30,7 +30,7 @@ $string['hidefromothers'] = 'Hide week';
 $string['showfromothers'] = 'Show week';
 
 $string['emptytitle'] = 'Course setup';
-$string['emptydesc'] = 'This course appears to be empty. Would you like to start from scratch or rollover content from a previous iteration of the course?';
+$string['emptydesc'] = 'This course appears to be empty! Would you like to start from scratch or rollover content from a previous iteration of the course?';
 $string['emptynew'] = 'Start fresh';
 $string['emptyrollover'] = 'Rollover';
 
