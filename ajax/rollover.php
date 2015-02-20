@@ -46,6 +46,10 @@ if ($action == 'schedule') {
 		'id' => $from
 	), '*', MUST_EXIST);
 
+	// Undo any existing, completed rollover.
+	$course = new \local_rollover\Course($to);
+	$course->undo_rollovers();
+
 	$id = \local_rollover\Rollover::schedule($from->moodle_dist, $from->moodle_id, $to);
 	if (!$id) {
 	    print_error("Error creating rollover entry (unknown error).");
