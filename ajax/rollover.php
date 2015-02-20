@@ -42,7 +42,7 @@ if ($action == 'schedule') {
 	$to = required_param('to', PARAM_INT);
 	$from = required_param('from', PARAM_INT);
 
-	$from = $SHAREDB->get_record('shared_course', array(
+	$from = $SHAREDB->get_record('shared_courses', array(
 		'id' => $from
 	), '*', MUST_EXIST);
 
@@ -68,33 +68,33 @@ if ($action == 'status') {
 	$progress = -1; // -1 means do not update.
 	$status = '';
 	switch ($rollover->status) {
-		case STATUS_SCHEDULED:
+		case \local_rollover\Rollover::STATUS_SCHEDULED:
 			$progress = 5;
 			$status = 'Scheduled for rollover';
 		break;
 
-		case STATUS_BACKED_UP:
+		case \local_rollover\Rollover::STATUS_BACKED_UP:
 			$progress = 50;
 			$status = 'Finished backup';
 		break;
 
-		case STATUS_IN_PROGRESS:
+		case \local_rollover\Rollover::STATUS_IN_PROGRESS:
 			$status = 'Processing';
 		break;
 
-		case STATUS_WAITING_SCHEDULE:
+		case \local_rollover\Rollover::STATUS_WAITING_SCHEDULE:
 			$progress = 0;
 			$status = 'Scheduling';
 		break;
 
-		case STATUS_COMPLETE:
+		case \local_rollover\Rollover::STATUS_COMPLETE:
 			$progress = 100;
 			$status = 'rollover_complete';
 		break;
 
-		case STATUS_NONE:
-		case STATUS_DELETED:
-		case STATUS_ERROR:
+		case \local_rollover\Rollover::STATUS_NONE:
+		case \local_rollover\Rollover::STATUS_DELETED:
+		case \local_rollover\Rollover::STATUS_ERROR:
 		default:
 			$status = 'rollover_error';
 		break;
