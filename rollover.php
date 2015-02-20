@@ -29,6 +29,8 @@ $PAGE->set_url('/course/format/standardweeks/rollover.php', array(
 ));
 $PAGE->set_context(context_course::instance($course->id));
 $PAGE->set_pagelayout('admin');
+$PAGE->set_course($course);
+$PAGE->navbar->add('Rollover');
 $PAGE->requires->js('/course/format/standardweeks/javascript/rollover.js');
 
 echo $OUTPUT->header();
