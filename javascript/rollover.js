@@ -33,7 +33,9 @@ $(function() {
 
 				$("#rollovercontainer .progress-bar").html(status);
 
-				statusLoop(rolloverid);
+				setTimeout(function() {
+					statusLoop(rolloverid)
+				}, 5000);
 			}
 		});
 	};
@@ -67,6 +69,7 @@ $(function() {
 
 				$("#rollovercontainer").html("<div class=\"text-center\"><i class=\"fa fa-spinner fa-spin\"></i></div>");
 
+				// Schedule the rollover.
 				$.ajax({
 					url: M.cfg.wwwroot + "/course/format/standardweeks/ajax/rollover.php",
 					type: "POST",
@@ -78,6 +81,7 @@ $(function() {
 					},
 					success: function(data) {
 						$("#rollovercontainer").html('\
+							<p>Please wait... your course is being rolled over.</p>\
 							<div class="progress">\
 								<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">\
 									<i class="fa fa-spin fa-spinner"></i>\
@@ -85,9 +89,7 @@ $(function() {
 							</div>\
 						');
 
-						setTimeout(function() {
-							statusLoop(data.rolloverid)
-						}, 5000);
+						statusLoop(data.rolloverid);
 					}
 				});
 
