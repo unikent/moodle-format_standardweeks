@@ -138,7 +138,7 @@ class format_standardweeks_renderer extends format_weeks_renderer
         echo \html_writer::start_tag('div', array('class' => 'row'));
 
         // The Start Fresh button.
-        echo \html_writer::start_tag('div', array('class' => 'col-md-4'));
+        echo \html_writer::start_tag('div', array('class' => 'col-md-6'));
         echo \html_writer::tag('button', 'Start fresh', array(
             'id' => 'action-fresh',
             'class' => 'btn btn-default btn-lg btn-block',
@@ -147,18 +147,9 @@ class format_standardweeks_renderer extends format_weeks_renderer
         echo \html_writer::end_tag('div');
 
         // The Rollover button.
-        echo \html_writer::start_tag('div', array('class' => 'col-md-4'));
+        echo \html_writer::start_tag('div', array('class' => 'col-md-6'));
         echo \html_writer::tag('button', 'Rollover from a previous module', array(
             'id' => 'action-rollover',
-            'class' => 'btn btn-default btn-lg btn-block',
-            'data-id' => $course->id
-        ));
-        echo \html_writer::end_tag('div');
-
-        // The Merge button.
-        echo \html_writer::start_tag('div', array('class' => 'col-md-4'));
-        echo \html_writer::tag('button', 'Merge with an existing module', array(
-            'id' => 'action-merge',
             'class' => 'btn btn-default btn-lg btn-block',
             'data-id' => $course->id
         ));
