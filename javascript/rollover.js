@@ -35,6 +35,7 @@ $(function() {
 
 			if (status == 'rollover_complete') {
 				window.location = M.cfg.wwwroot + '/course/view.php?id=' + courseid;
+				status = "Rollover complete!";
 			}
 
 			if (percent > -1) {
