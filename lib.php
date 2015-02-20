@@ -36,4 +36,5 @@ require_once($CFG->dirroot . '/course/format/weeks/lib.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class format_standardweeks extends format_weeks {
+
 }

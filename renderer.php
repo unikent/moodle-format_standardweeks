@@ -37,7 +37,32 @@ require_once($CFG->dirroot . '/course/format/standardweeks/lib.php');
  * @copyright  2014 Skylar Kelty <S.Kelty@kent.ac.uk>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class format_standardweeks_renderer extends format_weeks_renderer {
+class format_standardweeks_renderer extends format_weeks_renderer
+{
+    /**
+     * Generate the starting container html for a list of sections
+     * @return string HTML to output.
+     */
+    protected function start_section_list() {
+        global $COURSE, $OUTPUT;
+
+        $pre = '';
+
+        // Add error message if we have been scheduled for deletion.
+        $cmenabled = get_config("local_catman", "enable");
+        if ($cmenabled && \local_catman\core::is_scheduled($COURSE)) {
+            $time = \local_catman\core::get_expiration($COURSE);
+            $time = strftime("%d/%m/%Y %H:%M", $time);
+            $pre .= $OUTPUT->notification("This course has been scheduled for deletion on {$time}.");
+        }
+
+        if (!$COURSE->visible) {
+            $pre .= $OUTPUT->notification('This course is not currently visible to students.', 'notifywarning');
+        }
+
+        return $pre . html_writer::start_tag('ul', array('class' => 'weeks'));
+    }
+
     /**
      * Generate the display of the header part of a section before
      * course modules are included
@@ -49,8 +74,7 @@ class format_standardweeks_renderer extends format_weeks_renderer {
      * @return string HTML to output.
      */
     protected function section_header($section, $course, $onsectionpage, $sectionreturn=null) {
-        $context = \context_course::instance($course->id);
-        if (empty($section->name) && has_capability('moodle/course:update', $context)) {
+        if ($section->section == 0) {
             $section->name = "{$course->shortname}: {$course->fullname}";
         }
 
@@ -80,7 +104,7 @@ class format_standardweeks_renderer extends format_weeks_renderer {
             $summary = '';
             if ($section->section === 0) {
                 $summary = get_string('firstsectiondescsuggestion', 'format_standardweeks');
-            } elseif ($section->section === 1) {
+            } else if ($section->section === 1) {
                 // Is the section title 'Assessment info'?
                 $assessmenttitle = get_string('assessmentinfotitle', 'format_standardweeks');
                 if ($section->name !== $assessmenttitle) {
@@ -100,5 +124,39 @@ class format_standardweeks_renderer extends format_weeks_renderer {
         }
 
         return parent::format_summary_text($section);
+    }
+
+    /**
+     * This course, is empty.
+     */
+    public function print_empty($course, $modinfo) {
+        echo \html_writer::tag('h2',  get_string('emptytitle', 'format_standardweeks'));
+
+        echo \html_writer::start_tag('div', array('id' => 'formatbuttons'));
+        echo \html_writer::tag('p',  get_string('emptydesc', 'format_standardweeks'));
+
+        echo \html_writer::start_tag('div', array('class' => 'row'));
+
+        // The Start Fresh button.
+        echo \html_writer::start_tag('div', array('class' => 'col-md-6'));
+        echo \html_writer::tag('button', 'Start fresh', array(
+            'id' => 'action-fresh',
+            'class' => 'btn btn-default btn-lg btn-block',
+            'data-id' => $course->id
+        ));
+        echo \html_writer::end_tag('div');
+
+        // The Rollover button.
+        echo \html_writer::start_tag('div', array('class' => 'col-md-6'));
+        echo \html_writer::tag('button', 'Rollover from a previous module', array(
+            'id' => 'action-rollover',
+            'class' => 'btn btn-default btn-lg btn-block',
+            'data-id' => $course->id
+        ));
+        echo \html_writer::end_tag('div');
+
+        echo \html_writer::end_tag('div');
+
+        echo \html_writer::end_tag('div');
     }
 }
