@@ -44,7 +44,7 @@ $rollover = new \local_rollover\Course($course->id);
 if ($rollover->has_active_rollover()) {
 	// We... already have a rollover in progress..
 	// Javascript will take care of this.
-	echo '<p class="text-center"><i class="fa fa-spin fa-spinner"></i></p></div>';
+	echo '<p class="text-center"><i class="fa fa-spin fa-spinner"></i></p><div id="currentrollover"></div></div>';
 	echo $OUTPUT->footer();
 	die;
 }

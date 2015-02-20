@@ -129,11 +129,7 @@ $(function() {
 	});
 
 	// On page load, check we aren't in the middle of a rollover.
-	getStatus(function(data) {
-		if (data.status == 'no_rollover') {
-			return;
-		}
-
+	if ($("#currentrollover").length > 0) {
 		beginStatusLoop();
-	});
+	}
 });
