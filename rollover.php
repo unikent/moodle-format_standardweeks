@@ -41,8 +41,7 @@ echo <<<HTML5
 HTML5;
 
 $rollover = new \local_rollover\Course($course->id);
-$status = $rollover->get_status();
-if ($status !== \local_rollover\Rollover::STATUS_DELETED && $status !== \local_rollover\Rollover::STATUS_NONE) {
+if ($rollover->has_active_rollover()) {
 	// We... already have a rollover in progress..
 	// Javascript will take care of this.
 	echo '<p class="text-center"><i class="fa fa-spin fa-spinner"></i></p></div>';
