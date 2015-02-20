@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -29,6 +28,11 @@ $string['sectionname'] = 'Week {$a->number} - {$a->title}';
 $string['assessmentsectionname'] = 'Assessment Info';
 $string['hidefromothers'] = 'Hide week';
 $string['showfromothers'] = 'Show week';
+
+$string['emptytitle'] = 'Course setup';
+$string['emptydesc'] = 'This course appears to be empty! Would you like to start from scratch or rollover content from a previous iteration of the course?';
+$string['emptynew'] = 'Start fresh';
+$string['emptyrollover'] = 'Rollover';
 
 $string['firstsectiondescsuggestion'] = '
 <p>This module explores representations of illness and disability in American literature and culture, with a particular emphasis on contemporary illness narratives.

@@ -104,7 +104,7 @@ class format_standardweeks_renderer extends format_weeks_renderer
             $summary = '';
             if ($section->section === 0) {
                 $summary = get_string('firstsectiondescsuggestion', 'format_standardweeks');
-            } elseif ($section->section === 1) {
+            } else if ($section->section === 1) {
                 // Is the section title 'Assessment info'?
                 $assessmenttitle = get_string('assessmentinfotitle', 'format_standardweeks');
                 if ($section->name !== $assessmenttitle) {
@@ -124,5 +124,39 @@ class format_standardweeks_renderer extends format_weeks_renderer
         }
 
         return parent::format_summary_text($section);
+    }
+
+    /**
+     * This course, is empty.
+     */
+    public function print_empty($course, $modinfo) {
+        echo \html_writer::tag('h2',  get_string('emptytitle', 'format_standardweeks'));
+
+        echo \html_writer::start_tag('div', array('id' => 'formatbuttons'));
+        echo \html_writer::tag('p',  get_string('emptydesc', 'format_standardweeks'));
+
+        echo \html_writer::start_tag('div', array('class' => 'row'));
+
+        // The Start Fresh button.
+        echo \html_writer::start_tag('div', array('class' => 'col-md-6'));
+        echo \html_writer::tag('button', 'Start fresh', array(
+            'id' => 'action-fresh',
+            'class' => 'btn btn-default btn-lg btn-block',
+            'data-id' => $course->id
+        ));
+        echo \html_writer::end_tag('div');
+
+        // The Rollover button.
+        echo \html_writer::start_tag('div', array('class' => 'col-md-6'));
+        echo \html_writer::tag('button', 'Rollover from a previous module', array(
+            'id' => 'action-rollover',
+            'class' => 'btn btn-default btn-lg btn-block',
+            'data-id' => $course->id
+        ));
+        echo \html_writer::end_tag('div');
+
+        echo \html_writer::end_tag('div');
+
+        echo \html_writer::end_tag('div');
     }
 }

@@ -39,7 +39,22 @@ $renderer = $PAGE->get_renderer('format_standardweeks');
 if (!empty($displaysection)) {
     $renderer->print_single_section_page($course, null, null, null, null, $displaysection);
 } else {
-    $renderer->print_multiple_section_page($course, null, null, null, null);
+    $modinfo = get_fast_modinfo($course);
+    if (empty($modinfo->get_cms()) && !$PAGE->user_is_editing()) {
+    	// Do we have an active rollover?
+    	$rollover = new \local_rollover\Course($course->id);
+		if ($rollover->has_active_rollover()) {
+			redirect(new \moodle_url('/course/format/standardweeks/rollover.php', array(
+				'id' => $course->id
+			)));
+			die;
+		}
+
+        $renderer->print_empty($course, $modinfo);
+    } else {
+        $renderer->print_multiple_section_page($course, null, null, null, null);
+    }
 }
 
+$PAGE->requires->js('/course/format/standardweeks/javascript/format.js');
 $PAGE->requires->js('/course/format/weeks/format.js');
