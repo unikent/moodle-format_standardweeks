@@ -37,14 +37,14 @@ $action = required_param('action', PARAM_ALPHA);
 // Then, when the rollover is finish we echo back "rollover_complete" or
 // "rollover_error".
 
-$from = $SHAREDB->get_record('shared_course', array(
-	'id' => $from
-), '*', MUST_EXIST);
-
 // Easy! Just schedule it.
 if ($action == 'schedule') {
 	$to = required_param('to', PARAM_INT);
 	$from = required_param('from', PARAM_INT);
+
+	$from = $SHAREDB->get_record('shared_course', array(
+		'id' => $from
+	), '*', MUST_EXIST);
 
 	$id = \local_rollover\Rollover::schedule($from->moodle_dist, $from->moodle_id, $to);
 	if (!$id) {
