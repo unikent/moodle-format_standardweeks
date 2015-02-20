@@ -36,6 +36,20 @@ $PAGE->requires->js('/course/format/standardweeks/javascript/rollover.js');
 echo $OUTPUT->header();
 echo $OUTPUT->heading('Rollover');
 
+echo <<<HTML5
+	<div id="rollovercontainer" class="bootstrap" data-id="{$course->id}">
+HTML5;
+
+$rollover = new \local_rollover\Course($course->id);
+$status = $rollover->get_status();
+if ($status !== \local_rollover\Rollover::STATUS_DELETED && $status !== \local_rollover\Rollover::STATUS_NONE) {
+	// We... already have a rollover in progress..
+	// Javascript will take care of this.
+	echo '<p class="text-center"><i class="fa fa-spin fa-spinner"></i></p></div>';
+	echo $OUTPUT->footer();
+	die;
+}
+
 $buttons = array();
 $options = $CFG->kent->paths;
 foreach ($options as $name => $url) {

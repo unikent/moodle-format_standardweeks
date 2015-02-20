@@ -60,26 +60,24 @@ if ($action == 'schedule') {
 
 // They want a status update eh? I'll give em a status update....
 if ($action == 'status') {
-	$rolloverid = required_param('rolloverid', PARAM_INT);
-	$rollover = $SHAREDB->get_record('shared_rollovers', array(
-		'id' => $rolloverid
-	));
+	$courseid = required_param('courseid', PARAM_INT);
+	$course = new \local_rollover\Course($courseid);
 
 	$progress = -1; // -1 means do not update.
 	$status = '';
-	switch ($rollover->status) {
+	switch ($course->get_status()) {
 		case \local_rollover\Rollover::STATUS_SCHEDULED:
-			$progress = 5;
-			$status = 'Scheduled for rollover';
+			$progress = 25;
+			$status = 'Creating backup';
 		break;
 
 		case \local_rollover\Rollover::STATUS_BACKED_UP:
 			$progress = 50;
-			$status = 'Finished backup';
+			$status = 'Backup complete';
 		break;
 
 		case \local_rollover\Rollover::STATUS_IN_PROGRESS:
-			$status = 'Processing';
+			$status = 'Processing rollover';
 		break;
 
 		case \local_rollover\Rollover::STATUS_WAITING_SCHEDULE:
@@ -92,11 +90,14 @@ if ($action == 'status') {
 			$status = 'rollover_complete';
 		break;
 
-		case \local_rollover\Rollover::STATUS_NONE:
-		case \local_rollover\Rollover::STATUS_DELETED:
 		case \local_rollover\Rollover::STATUS_ERROR:
-		default:
 			$status = 'rollover_error';
+		break;
+
+		case \local_rollover\Rollover::STATUS_DELETED:
+		case \local_rollover\Rollover::STATUS_NONE:
+		default:
+			$status = 'no_rollover';
 		break;
 
 	}
