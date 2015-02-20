@@ -89,7 +89,7 @@ if ($action == 'status') {
 
 		case STATUS_COMPLETE:
 			$progress = 100;
-			$status = 'Finished!';
+			$status = 'rollover_complete';
 		break;
 
 		case STATUS_NONE:

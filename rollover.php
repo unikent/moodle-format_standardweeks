@@ -38,26 +38,26 @@ $buttons = array();
 $options = $CFG->kent->paths;
 foreach ($options as $name => $url) {
 	$ucname = ucwords($name);
-	$buttons[] = "<label class=\"btn btn-default\"><input type=\"radio\" name=\"moodle\" data-uri=\"{$url}\" id=\"moodle-{$name}\" autocomplete=\"off\"> {$ucname}</label>";
+	$buttons[] = "<label class=\"btn btn-default\"><input type=\"radio\" name=\"moodle\" data-name=\"{$name}\" id=\"moodle-{$name}\" autocomplete=\"off\"> {$ucname}</label>";
 }
 $buttons = implode(' ', $buttons);
 
 echo <<<HTML5
 <div id="rollovercontainer" class="bootstrap" data-id="{$course->id}">
+	<p>Which Moodle would you like to rollover from?</p>
+	<div id="moodle-select" class="btn-group" data-toggle="buttons">
+		$buttons
+	</div>
 	<form class="form-horizontal">
-		<p>Which Moodle would you like to rollover from?</p>
-		<div id="moodle-select" class="btn-group" data-toggle="buttons">
-			$buttons
-		</div>
 		<div class="form-group">
 			<div class="col-sm-4">
-				<input type="email" class="form-control" id="moodle-search" placeholder="Search by module code">
+				<input type="text" class="form-control" id="moodle-search" placeholder="Search by module code">
 			</div>
 		</div>
-		<div id="rollover-options">
-			<p>Too many results! Try to use the options above to narrow it down a bit.</p>
-		</div>
 	</form>
+	<div id="rollover-options">
+		<p>Too many results! Try to use the options above to narrow it down a bit.</p>
+	</div>
 </div>
 HTML5;
 
