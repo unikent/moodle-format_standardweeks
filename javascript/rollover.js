@@ -42,12 +42,15 @@ $(function() {
 		if (search.length < 2) {
 			return;
 		}
+		
+		var to = $("#rollovercontainer").attr('data-id');
 
 		// Call for a list of possible rollovers.
 		$.ajax({
 			url: M.cfg.wwwroot + "/course/format/standardweeks/ajax/rolloversources.php",
 			type: "GET",
 			data: {
+				'to': to,
 				'dist': dist,
 				'search': search,
 				'sesskey': M.cfg.sesskey

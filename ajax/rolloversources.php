@@ -24,6 +24,7 @@ $PAGE->set_url('/course/format/standardweeks/ajax/rolloversources.php');
 require_login();
 require_sesskey();
 
+$to = required_param('to', PARAM_INT);
 $dist = required_param('dist', PARAM_RAW_TRIMMED);
 $search = required_param('search', PARAM_RAW_TRIMMED);
 
@@ -37,6 +38,11 @@ $table->attributes['class'] = 'admintable generaltable';
 $table->data = array();
 
 foreach ($sources as $course) {
+	// We can't rollover into self!
+	if ($course->moodle_dist == $CFG->kent->distribution && $course->moodle_id == $to) {
+		continue;
+	}
+
 	$table->data[] = array(
         $course->moodle_dist,
         $course->shortname,
