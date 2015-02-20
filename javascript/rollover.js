@@ -32,7 +32,9 @@ $(function() {
 				}
 
 				if (percent > -1) {
-					$("#rollovercontainer .progress-bar").attr('aria-valuenow', percent);
+					$("#rollovercontainer .progress-bar")
+						.attr('aria-valuenow', percent)
+						.css('width', percent + '%');
 				}
 
 				$("#rollovercontainer .progress-bar").html(status);
@@ -93,7 +95,7 @@ $(function() {
 						$("#rollovercontainer").html('\
 							<p>Please wait... your course is being rolled over.</p>\
 							<div class="progress">\
-								<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">\
+								<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">\
 									<i class="fa fa-spin fa-spinner"></i>\
 								</div>\
 							</div>\
