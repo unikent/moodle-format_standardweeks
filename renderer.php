@@ -62,6 +62,7 @@ class format_standardweeks_renderer extends format_weeks_renderer
 
         return $pre . html_writer::start_tag('ul', array('class' => 'weeks'));
     }
+
     /**
      * Generate the display of the header part of a section before
      * course modules are included
@@ -73,8 +74,7 @@ class format_standardweeks_renderer extends format_weeks_renderer
      * @return string HTML to output.
      */
     protected function section_header($section, $course, $onsectionpage, $sectionreturn=null) {
-        $context = \context_course::instance($course->id);
-        if (empty($section->name) && has_capability('moodle/course:update', $context)) {
+        if ($section->section == 0) {
             $section->name = "{$course->shortname}: {$course->fullname}";
         }
 
