@@ -2,6 +2,10 @@ $(function() {
 	var dist = '*';
 	var search = '';
 
+	var setRolloverError = function() {
+		$("#rollovercontainer").html("<p>Something went wrong! Please refresh and try again or contact your FLT.</p>");
+	};
+
 	// Refresh status loop.
 	var statusLoop = function(rolloverid) {
 		$.ajax({
@@ -18,7 +22,7 @@ $(function() {
 
 				if (status == 'rollover_error') {
 					// Uh oh.
-					$("#rollovercontainer").html("<p>Something went wrong! Please refresh and try again or contact your FLT.</p>");
+					setRolloverError();
 					return;
 				}
 
@@ -80,6 +84,12 @@ $(function() {
 						'sesskey': M.cfg.sesskey
 					},
 					success: function(data) {
+						if (typeof data.rolloverid == 'undefined') {
+							// Uh oh.
+							setRolloverError();
+							return;
+						}
+
 						$("#rollovercontainer").html('\
 							<p>Please wait... your course is being rolled over.</p>\
 							<div class="progress">\
