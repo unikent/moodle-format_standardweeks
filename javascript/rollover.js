@@ -84,7 +84,7 @@ $(function() {
 
 						setTimeout(function() {
 							statusLoop(data.rolloverid)
-						}, 5000;
+						}, 5000);
 					}
 				});
 
