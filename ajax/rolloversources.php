@@ -30,6 +30,15 @@ $search = required_param('search', PARAM_RAW_TRIMMED);
 
 $sources = \local_rollover\Sources::get_course_list($dist, "%{$search}%");
 
+if (empty($sources)) {
+	echo $OUTPUT->header();
+	echo json_encode(array(
+		'result' => 'No courses found.'
+	));
+
+	die;
+}
+
 $table = new html_table();
 $table->head = array('Moodle', 'Shortname', 'Fullname', 'Action');
 $table->colclasses = array('moodle', 'shortname', 'fullname', 'action');
