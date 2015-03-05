@@ -24,7 +24,8 @@
 
 $string['pluginname'] = 'Standard weekly format';
 $string['currentsection'] = 'This week';
-$string['sectionname'] = 'Week {$a->number} - {$a->title}';
+$string['sectionname'] = 'Week';
+$string['sectionnamefull'] = 'Week {$a->number} - {$a->title}';
 $string['assessmentsectionname'] = 'Assessment Info';
 $string['hidefromothers'] = 'Hide week';
 $string['showfromothers'] = 'Show week';
