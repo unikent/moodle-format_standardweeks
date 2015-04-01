@@ -22,9 +22,16 @@ $(function() {
 		window.location = M.cfg.wwwroot + "/course/format/standardweeks/rollover.php?id=" + id;
 	});
 
-	$("#action-merge").on("click", function() {
+	$(".cnid-dismiss").on("click", function() {
 		var id = $(this).attr('data-id');
-		window.location = M.cfg.wwwroot + "/course/format/standardweeks/merge.php?id=" + id;
+		$.ajax({
+			url: M.cfg.wwwroot + "/course/format/standardweeks/ajax/dismiss.php",
+			type: "POST",
+			data: {
+				'id': id,
+				'sesskey': M.cfg.sesskey
+			}
+		});
 	});
 });
 

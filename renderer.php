@@ -74,7 +74,14 @@ class format_standardweeks_renderer extends format_weeks_renderer
                 continue;
             }
 
-            $pre .= $OUTPUT->notification($notification->message, 'notifywarning');
+            $pre .= <<<HTML5
+            <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="close cnid-dismiss" data-dismiss="alert" data-id="{$notification->id}" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {$notification->message}
+            </div>
+HTML5;
         }
 
         return $pre . $post;
