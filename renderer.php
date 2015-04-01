@@ -47,6 +47,11 @@ class format_standardweeks_renderer extends format_weeks_renderer
         global $COURSE, $OUTPUT;
 
         $post = \html_writer::start_tag('ul', array('class' => 'weeks'));
+        $ctx = \context_course::instance($COURSE->id);
+        if (!has_capability('moodle/course:update', $ctx)) {
+            return $post;
+        }
+
         $pre = '';
 
         // Add error message if we have been scheduled for deletion.
