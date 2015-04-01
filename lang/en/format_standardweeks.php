@@ -18,7 +18,7 @@
  * Strings for component 'format_standardweeks', language 'en'
  *
  * @package format_standardweeks
- * @copyright  2014 Skylar Kelty <S.Kelty@kent.ac.uk>
+ * @copyright  2015 Skylar Kelty <S.Kelty@kent.ac.uk>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

@@ -19,7 +19,7 @@ define('AJAX_SCRIPT', true);
 require_once(dirname(__FILE__) . '/../../../../config.php');
 
 $PAGE->set_context(\context_system::instance());
-$PAGE->set_url('/course/format/standardweeks/ajax/rolloversources.php');
+$PAGE->set_url('/course/format/standardweeks/ajax/rollover.php');
 
 require_login();
 require_sesskey();

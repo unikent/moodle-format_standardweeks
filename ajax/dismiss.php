@@ -14,21 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Version details
- *
- * @package    format
- * @subpackage standardweeks
- * @copyright  2015 Skylar Kelty <S.Kelty@kent.ac.uk>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+define('AJAX_SCRIPT', true);
 
-defined('MOODLE_INTERNAL') || die();
+require_once(dirname(__FILE__) . '/../../../../config.php');
 
-$plugin->version   = 2015040100;
-$plugin->requires  = 2014050800;
-$plugin->component = 'format_standardweeks';
+$PAGE->set_context(\context_system::instance());
+$PAGE->set_url('/course/format/standardweeks/ajax/dismiss.php');
 
-$plugin->dependencies = array(
-    'local_kent' => 2015040100
-);
+require_login();
+require_sesskey();
+
+$id = required_param('id', PARAM_INT);
+
+$notification = \local_kent\Notification::instance($id);
+$notification->set_seen();

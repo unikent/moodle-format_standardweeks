@@ -19,7 +19,7 @@
  *
  * @package    format
  * @subpackage standardweeks
- * @copyright  2014 Skylar Kelty <S.Kelty@kent.ac.uk>
+ * @copyright  2015 Skylar Kelty <S.Kelty@kent.ac.uk>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -34,7 +34,7 @@ require_once($CFG->dirroot . '/course/format/standardweeks/lib.php');
  *
  * @package    format
  * @subpackage standardweeks
- * @copyright  2014 Skylar Kelty <S.Kelty@kent.ac.uk>
+ * @copyright  2015 Skylar Kelty <S.Kelty@kent.ac.uk>
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class format_standardweeks_renderer extends format_weeks_renderer
@@ -45,6 +45,12 @@ class format_standardweeks_renderer extends format_weeks_renderer
      */
     protected function start_section_list() {
         global $COURSE, $OUTPUT;
+
+        $post = \html_writer::start_tag('ul', array('class' => 'weeks'));
+        $ctx = \context_course::instance($COURSE->id);
+        if (!has_capability('moodle/course:update', $ctx)) {
+            return $post;
+        }
 
         $pre = '';
 
@@ -60,7 +66,25 @@ class format_standardweeks_renderer extends format_weeks_renderer
             $pre .= $OUTPUT->notification('This course is not currently visible to students.', 'notifywarning');
         }
 
-        return $pre . html_writer::start_tag('ul', array('class' => 'weeks'));
+        // Grab a list of notifications from local_kent.
+        $cobj = new \local_kent\Course($COURSE->id);
+        $notifications = $cobj->get_notifications();
+        foreach ($notifications as $notification) {
+            if ($notification->dismissable && $notification->seen) {
+                continue;
+            }
+
+            $pre .= <<<HTML5
+            <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="close cnid-dismiss" data-dismiss="alert" data-id="{$notification->id}" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {$notification->message}
+            </div>
+HTML5;
+        }
+
+        return $pre . $post;
     }
 
     /**
