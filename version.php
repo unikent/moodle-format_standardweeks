@@ -19,12 +19,16 @@
  *
  * @package    format
  * @subpackage standardweeks
- * @copyright  2014 Skylar Kelty <S.Kelty@kent.ac.uk>
+ * @copyright  2015 Skylar Kelty <S.Kelty@kent.ac.uk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015030500;
+$plugin->version   = 2015040100;
 $plugin->requires  = 2014050800;
 $plugin->component = 'format_standardweeks';
+
+$plugin->dependencies = array(
+    'local_kent' => 2015040100
+);
