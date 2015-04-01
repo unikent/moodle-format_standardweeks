@@ -46,6 +46,7 @@ class format_standardweeks_renderer extends format_weeks_renderer
     protected function start_section_list() {
         global $COURSE, $OUTPUT;
 
+        $post = \html_writer::start_tag('ul', array('class' => 'weeks'));
         $pre = '';
 
         // Add error message if we have been scheduled for deletion.
@@ -60,7 +61,18 @@ class format_standardweeks_renderer extends format_weeks_renderer
             $pre .= $OUTPUT->notification('This course is not currently visible to students.', 'notifywarning');
         }
 
-        return $pre . html_writer::start_tag('ul', array('class' => 'weeks'));
+        // Grab a list of notifications from local_kent.
+        $cobj = new \local_kent\Course($COURSE->id);
+        $notifications = $cobj->get_notifications();
+        foreach ($notifications as $notification) {
+            if ($notification->dismissable && $notification->seen) {
+                continue;
+            }
+
+            $pre .= $OUTPUT->notification($notification->message, 'notifywarning');
+        }
+
+        return $pre . $post;
     }
 
     /**
