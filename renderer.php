@@ -120,7 +120,7 @@ HTML5;
         }
 
         $context = \context_course::instance($section->course);
-        if (!has_capability('moodle/course:update', $context)) {
+        if (!$PAGE->user_is_editing() || !has_capability('moodle/course:update', $context)) {
             return parent::format_summary_text($section);
         }
 
