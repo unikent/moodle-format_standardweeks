@@ -44,47 +44,7 @@ class format_standardweeks_renderer extends format_weeks_renderer
      * @return string HTML to output.
      */
     protected function start_section_list() {
-        global $COURSE, $OUTPUT;
-
-        $post = \html_writer::start_tag('ul', array('class' => 'weeks'));
-        $ctx = \context_course::instance($COURSE->id);
-        if (!has_capability('moodle/course:update', $ctx)) {
-            return $post;
-        }
-
-        $pre = '';
-
-        // Add error message if we have been scheduled for deletion.
-        $cmenabled = get_config("local_catman", "enable");
-        if ($cmenabled && \local_catman\core::is_scheduled($COURSE)) {
-            $time = \local_catman\core::get_expiration($COURSE);
-            $time = strftime("%d/%m/%Y %H:%M", $time);
-            $pre .= $OUTPUT->notification("This course has been scheduled for deletion on {$time}.");
-        }
-
-        if (!$COURSE->visible) {
-            $pre .= $OUTPUT->notification('This course is not currently visible to students.', 'notifywarning');
-        }
-
-        // Grab a list of notifications from local_kent.
-        $cobj = new \local_kent\Course($COURSE->id);
-        $notifications = $cobj->get_notifications();
-        foreach ($notifications as $notification) {
-            if ($notification->dismissable && $notification->seen) {
-                continue;
-            }
-
-            $pre .= <<<HTML5
-            <div class="alert alert-warning alert-dismissible" role="alert">
-                <button type="button" class="close cnid-dismiss" data-dismiss="alert" data-id="{$notification->id}" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                {$notification->message}
-            </div>
-HTML5;
-        }
-
-        return $pre . $post;
+        return \html_writer::start_tag('ul', array('class' => 'weeks'));
     }
 
     /**
@@ -120,7 +80,7 @@ HTML5;
         }
 
         $context = \context_course::instance($section->course);
-        if (!has_capability('moodle/course:update', $context)) {
+        if (!$PAGE->user_is_editing() || !has_capability('moodle/course:update', $context)) {
             return parent::format_summary_text($section);
         }
 
