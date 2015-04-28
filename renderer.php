@@ -40,14 +40,6 @@ require_once($CFG->dirroot . '/course/format/standardweeks/lib.php');
 class format_standardweeks_renderer extends format_weeks_renderer
 {
     /**
-     * Generate the starting container html for a list of sections
-     * @return string HTML to output.
-     */
-    protected function start_section_list() {
-        return \html_writer::start_tag('ul', array('class' => 'weeks'));
-    }
-
-    /**
      * Generate the display of the header part of a section before
      * course modules are included
      *
