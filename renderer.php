@@ -66,6 +66,9 @@ class format_standardweeks_renderer extends format_weeks_renderer
     protected function format_summary_text($section) {
         global $COURSE, $PAGE;
 
+        // We are not ready!
+        return parent::format_summary_text($section);
+
         // Don't know whats happening.
         if ($COURSE->id !== $section->course) {
             return parent::format_summary_text($section);
