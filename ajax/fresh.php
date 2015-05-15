@@ -63,9 +63,10 @@ $rl->timemodified = time();
 $instance = aspirelists_add_instance($rl, new \stdClass());
 
 // Find the first course section.
-$section = $DB->get_record_sql("SELECT id, sequence FROM {course_sections} WHERE course=:cid AND section=0", array(
-    'cid' => $course->id
-));
+$section = $DB->get_record('course_sections', array(
+    'course' => $course->id,
+    'section' => 0
+), 'id');
 
 // Create a module container.
 $cm = new \stdClass();
@@ -73,7 +74,6 @@ $cm->course     = $course->id;
 $cm->module     = $module->id;
 $cm->instance   = $instance;
 $cm->section    = $section->id;
-$cm->section 	= 0;
 $cm->visible    = 1;
 
 // Create the module.
