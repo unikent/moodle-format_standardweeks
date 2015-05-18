@@ -73,7 +73,6 @@ $cm->course     = $course->id;
 $cm->module     = $module->id;
 $cm->instance   = $instance;
 $cm->section    = $section->id;
-$cm->section 	= 0;
 $cm->visible    = 1;
 
 // Create the module.
