@@ -11,3 +11,7 @@
     color: #717171;
     font-style: italic;
 }
+
+#rollovercontainer #moodle-select {
+	margin-bottom: 10px;
+}
