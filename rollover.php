@@ -21,15 +21,16 @@ $id = required_param('id', PARAM_INT);
 $course = $DB->get_record('course', array(
     'id' => $id
 ), '*', MUST_EXIST);
+$context = \context_course::instance($course->id);
 
 require_login($course->id);
+require_capability('moodle/course:update', $context);
 
 $PAGE->set_url('/course/format/standardweeks/rollover.php', array(
     'id' => $id
 ));
-$PAGE->set_context(context_course::instance($course->id));
+$PAGE->set_context($context);
 $PAGE->set_pagelayout('admin');
-$PAGE->set_course($course);
 $PAGE->navbar->add('Rollover');
 $PAGE->requires->css('/course/format/standardweeks/styles.css');
 $PAGE->requires->js_call_amd('format_standardweeks/rollover', 'init', array());
