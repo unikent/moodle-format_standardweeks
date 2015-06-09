@@ -52,28 +52,33 @@ $buttons = array();
 $options = $CFG->kent->paths;
 foreach ($options as $name => $url) {
     $ucname = ucwords($name);
-    $buttons[] = "<label class=\"btn btn-default\"><input type=\"radio\" name=\"moodle\" data-name=\"{$name}\" id=\"moodle-{$name}\" autocomplete=\"off\"> {$ucname}</label>";
+    $buttons[] = "<li><a href=\"#\" data-name=\"{$name}\" id=\"moodle-{$name}\">{$ucname}</a>";
 }
 $buttons = implode(' ', $buttons);
 
 echo <<<HTML5
 <div id="rollovercontainer" class="bootstrap" data-id="{$course->id}">
-    <p>Which Moodle would you like to rollover from?</p>
-
-    <div id="moodle-select" class="btn-group" data-toggle="buttons">
-        <label class="btn btn-default active"><input type="radio" name="moodle" data-name="*" id="moodle-any" autocomplete="off"> Any</label>
-        $buttons
-    </div>
+    <p>Which module would you like to rollover from?</p>
 
     <form class="form-horizontal">
         <div class="form-group">
-            <div class="col-sm-4">
-                <input type="text" class="form-control" id="moodle-search" placeholder="Search by module code" autocomplete="off">
+            <div class="col-sm-8">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button id="moodle-select-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        Any Moodle <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" id="moodle-select">
+                            <li><a href="#" data-name="*" id="moodle-any" autocomplete="off">Any</li>
+                            $buttons
+                        </ul>
+                    </div>
+                    <input type="text" class="form-control" id="moodle-search" placeholder="Search by module code" autocomplete="off">
+                </div>
             </div>
         </div>
     </form>
     <div id="rollover-options">
-        <p>Too many results! Try to use the options above to narrow it down a bit.</p>
     </div>
 </div>
 HTML5;

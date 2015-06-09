@@ -144,9 +144,17 @@ define([], function() {
 
     return {
         init: function() {
-            $("#moodle-select input").on("change", function() {
+            $("#moodle-select a").on("click", function(e) {
+                e.preventDefault();
+
+                $('#moodle-select').dropdown('toggle');
+
                 dist = $(this).attr('data-name');
+                $('#moodle-select-button').html($(this).text() + ' <span class="caret"></span>');
+
                 refreshList();
+
+                return false;
             });
 
             $("#moodle-search").on("keyup", function() {
