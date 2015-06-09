@@ -120,7 +120,9 @@ $(function() {
 
 	$("#moodle-select input").on("change", function() {
 		dist = $(this).attr('data-name');
-		refreshList();
+		if (dist != 'all') {
+			refreshList();
+		}
 	});
 
 	$("#moodle-search").on("keyup", function() {

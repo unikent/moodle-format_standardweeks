@@ -31,15 +31,13 @@ $PAGE->set_context(context_course::instance($course->id));
 $PAGE->set_pagelayout('admin');
 $PAGE->set_course($course);
 $PAGE->navbar->add('Rollover');
-$PAGE->requires->css('/course/format/standardweeks/styles.js');
+$PAGE->requires->css('/course/format/standardweeks/styles.css');
 $PAGE->requires->js('/course/format/standardweeks/javascript/rollover.js');
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading('Rollover');
 
-echo <<<HTML5
-    <div id="rollovercontainer" class="bootstrap" data-id="{$course->id}">
-HTML5;
+echo '<div id="rollovercontainer" class="bootstrap" data-id="' . $course->id . '">';
 
 $rollover = new \local_rollover\Course($course->id);
 if ($rollover->has_active_rollover()) {
@@ -63,6 +61,7 @@ echo <<<HTML5
     <p>Which Moodle would you like to rollover from?</p>
 
     <div id="moodle-select" class="btn-group" data-toggle="buttons">
+        <label class="btn btn-default active"><input type="radio" name="moodle" data-name="any" id="moodle-any" autocomplete="off"> Any</label>
         $buttons
     </div>
 
