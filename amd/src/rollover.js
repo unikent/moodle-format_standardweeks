@@ -79,7 +79,7 @@ define([], function() {
     // Begin checking the status every 5 seconds.
     var beginStatusLoop = function() {
         $("#rollovercontainer").html('\
-            <p>Please wait... your course is being rolled over.</p>\
+            <p>Please wait... your course is being rolled over.<br />Note: you can safely close this page and check back later.</p>\
             <div class="progress">\
                 <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">\
                     <i class="fa fa-spin fa-spinner"></i>\

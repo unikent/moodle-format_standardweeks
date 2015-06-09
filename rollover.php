@@ -18,11 +18,11 @@ require_once(dirname(__FILE__) . '/../../../config.php');
 
 $id = required_param('id', PARAM_INT);
 
-require_login();
-
 $course = $DB->get_record('course', array(
     'id' => $id
 ), '*', MUST_EXIST);
+
+require_login($course->id);
 
 $PAGE->set_url('/course/format/standardweeks/rollover.php', array(
     'id' => $id
