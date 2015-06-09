@@ -41,14 +41,14 @@ if (!empty($displaysection)) {
 } else {
     $modinfo = get_fast_modinfo($course);
     if (empty($modinfo->get_cms()) && !$PAGE->user_is_editing()) {
-    	// Do we have an active rollover?
-    	$rollover = new \local_rollover\Course($course->id);
-		if ($rollover->has_active_rollover()) {
-			redirect(new \moodle_url('/course/format/standardweeks/rollover.php', array(
-				'id' => $course->id
-			)));
-			die;
-		}
+        // Do we have an active rollover?
+        $rollover = new \local_rollover\Course($course->id);
+        if ($rollover->has_active_rollover()) {
+            redirect(new \moodle_url('/course/format/standardweeks/rollover.php', array(
+                'id' => $course->id
+            )));
+            die;
+        }
 
         $renderer->print_empty($course, $modinfo);
     } else {
@@ -56,5 +56,5 @@ if (!empty($displaysection)) {
     }
 }
 
-$PAGE->requires->js('/course/format/standardweeks/javascript/format.js');
+$PAGE->requires->js_call_amd('format_standardweeks/format', 'init', array());
 $PAGE->requires->js('/course/format/weeks/format.js');

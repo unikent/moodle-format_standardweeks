@@ -32,7 +32,7 @@ $PAGE->set_pagelayout('admin');
 $PAGE->set_course($course);
 $PAGE->navbar->add('Rollover');
 $PAGE->requires->css('/course/format/standardweeks/styles.css');
-$PAGE->requires->js('/course/format/standardweeks/javascript/rollover.js');
+$PAGE->requires->js_call_amd('format_standardweeks/rollover', 'init', array());
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading('Rollover');
@@ -61,7 +61,7 @@ echo <<<HTML5
     <p>Which Moodle would you like to rollover from?</p>
 
     <div id="moodle-select" class="btn-group" data-toggle="buttons">
-        <label class="btn btn-default active"><input type="radio" name="moodle" data-name="any" id="moodle-any" autocomplete="off"> Any</label>
+        <label class="btn btn-default active"><input type="radio" name="moodle" data-name="*" id="moodle-any" autocomplete="off"> Any</label>
         $buttons
     </div>
 
