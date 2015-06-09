@@ -40,7 +40,7 @@ echo $OUTPUT->heading('Rollover');
 
 echo '<div id="rollovercontainer" class="bootstrap" data-id="' . $course->id . '">';
 
-$rollover = new \local_rollover\Course($course->id);
+$rollover = new \local_rollover\Course($course);
 if ($rollover->has_active_rollover()) {
     // We... already have a rollover in progress..
     // Javascript will take care of this.
