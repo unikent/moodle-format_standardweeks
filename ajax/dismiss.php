@@ -26,5 +26,5 @@ require_sesskey();
 
 $id = required_param('id', PARAM_INT);
 
-$notification = \local_kent\Notification::instance($id);
+$notification = \local_notifications\Notification::instance($id);
 $notification->set_seen();
