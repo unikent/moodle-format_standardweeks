@@ -85,7 +85,7 @@ if ($action == 'status') {
 		break;
 
 		case \local_rollover\Rollover::STATUS_WAITING_SCHEDULE:
-			$progress = 0;
+			$progress = 15;
 			$status = 'Scheduling';
 		break;
 

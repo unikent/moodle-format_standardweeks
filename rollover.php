@@ -18,30 +18,29 @@ require_once(dirname(__FILE__) . '/../../../config.php');
 
 $id = required_param('id', PARAM_INT);
 
-require_login();
-
 $course = $DB->get_record('course', array(
     'id' => $id
 ), '*', MUST_EXIST);
+$context = \context_course::instance($course->id);
+
+require_login($course->id);
+require_capability('moodle/course:update', $context);
 
 $PAGE->set_url('/course/format/standardweeks/rollover.php', array(
     'id' => $id
 ));
-$PAGE->set_context(context_course::instance($course->id));
+$PAGE->set_context($context);
 $PAGE->set_pagelayout('admin');
-$PAGE->set_course($course);
 $PAGE->navbar->add('Rollover');
-$PAGE->requires->css('/course/format/standardweeks/styles.js');
-$PAGE->requires->js('/course/format/standardweeks/javascript/rollover.js');
+$PAGE->requires->css('/course/format/standardweeks/styles.css');
+$PAGE->requires->js_call_amd('format_standardweeks/rollover', 'init', array());
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading('Rollover');
 
-echo <<<HTML5
-    <div id="rollovercontainer" class="bootstrap" data-id="{$course->id}">
-HTML5;
+echo '<div id="rollovercontainer" class="bootstrap" data-id="' . $course->id . '">';
 
-$rollover = new \local_rollover\Course($course->id);
+$rollover = new \local_rollover\Course($course);
 if ($rollover->has_active_rollover()) {
     // We... already have a rollover in progress..
     // Javascript will take care of this.
@@ -54,27 +53,33 @@ $buttons = array();
 $options = $CFG->kent->paths;
 foreach ($options as $name => $url) {
     $ucname = ucwords($name);
-    $buttons[] = "<label class=\"btn btn-default\"><input type=\"radio\" name=\"moodle\" data-name=\"{$name}\" id=\"moodle-{$name}\" autocomplete=\"off\"> {$ucname}</label>";
+    $buttons[] = "<li><a href=\"#\" data-name=\"{$name}\" id=\"moodle-{$name}\">{$ucname}</a>";
 }
 $buttons = implode(' ', $buttons);
 
 echo <<<HTML5
 <div id="rollovercontainer" class="bootstrap" data-id="{$course->id}">
-    <p>Which Moodle would you like to rollover from?</p>
-
-    <div id="moodle-select" class="btn-group" data-toggle="buttons">
-        $buttons
-    </div>
+    <p>Which module would you like to rollover from?</p>
 
     <form class="form-horizontal">
         <div class="form-group">
-            <div class="col-sm-4">
-                <input type="text" class="form-control" id="moodle-search" placeholder="Search by module code" autocomplete="off">
+            <div class="col-sm-8">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button id="moodle-select-button" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        Any Moodle <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" id="moodle-select">
+                            <li><a href="#" data-name="*" id="moodle-any" autocomplete="off">Any</li>
+                            $buttons
+                        </ul>
+                    </div>
+                    <input type="text" class="form-control" id="moodle-search" placeholder="Search by module code" autocomplete="off">
+                </div>
             </div>
         </div>
     </form>
     <div id="rollover-options">
-        <p>Too many results! Try to use the options above to narrow it down a bit.</p>
     </div>
 </div>
 HTML5;
