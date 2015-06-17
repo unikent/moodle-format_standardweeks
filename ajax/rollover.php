@@ -39,82 +39,84 @@ $action = required_param('action', PARAM_ALPHA);
 
 // Easy! Just schedule it.
 if ($action == 'schedule') {
-	$to = required_param('to', PARAM_INT);
-	$from = required_param('from', PARAM_INT);
+    $to = required_param('to', PARAM_INT);
+    $from = required_param('from', PARAM_INT);
 
-	$from = $SHAREDB->get_record('shared_courses', array(
-		'id' => $from
-	), '*', MUST_EXIST);
+    require_capability('moodle/course:update', \context_course::instance($to));
 
-	// Undo any existing, completed rollover.
-	$course = new \local_rollover\Course($to);
-	$course->undo_rollovers();
+    $from = $SHAREDB->get_record('shared_courses', array(
+        'id' => $from
+    ), '*', MUST_EXIST);
 
-	$id = \local_rollover\Rollover::schedule($from->moodle_dist, $from->moodle_id, $to);
-	if (!$id) {
-	    print_error("Error creating rollover entry (unknown error).");
-	}
+    // Undo any existing, completed rollover.
+    $course = new \local_rollover\Course($to);
+    $course->undo_rollovers();
 
-	echo $OUTPUT->header();
-	echo json_encode(array(
-	    'rolloverid' => $id
-	));
-	die;
+    $id = \local_rollover\Rollover::schedule($from->moodle_dist, $from->moodle_id, $to);
+    if (!$id) {
+        print_error("Error creating rollover entry (unknown error).");
+    }
+
+    echo $OUTPUT->header();
+    echo json_encode(array(
+        'rolloverid' => $id
+    ));
+    die;
 }
 
 // They want a status update eh? I'll give em a status update....
 if ($action == 'status') {
-	$courseid = required_param('courseid', PARAM_INT);
-	$course = new \local_rollover\Course($courseid);
+    $courseid = required_param('courseid', PARAM_INT);
+    $course = new \local_rollover\Course($courseid);
 
-	$progress = -1; // -1 means do not update.
-	$status = '';
-	switch ($course->get_status()) {
-		case \local_rollover\Rollover::STATUS_SCHEDULED:
-			$progress = 25;
-			$status = 'Creating backup';
-		break;
+    $progress = -1; // -1 means do not update.
+    $status = '';
+    switch ($course->get_status()) {
+        case \local_rollover\Rollover::STATUS_SCHEDULED:
+            $progress = 25;
+            $status = 'Creating backup';
+        break;
 
-		case \local_rollover\Rollover::STATUS_BACKED_UP:
-			$progress = 50;
-			$status = 'Backup complete';
-		break;
+        case \local_rollover\Rollover::STATUS_BACKED_UP:
+            $progress = 50;
+            $status = 'Backup complete';
+        break;
 
-		case \local_rollover\Rollover::STATUS_RESTORE_SCHEDULED:
-			$progress = 75;
-			$status = 'Restore Scheduled';
-		break;
+        case \local_rollover\Rollover::STATUS_RESTORE_SCHEDULED:
+            $progress = 75;
+            $status = 'Restore Scheduled';
+        break;
 
-		case \local_rollover\Rollover::STATUS_IN_PROGRESS:
-			$status = 'Processing rollover';
-		break;
+        case \local_rollover\Rollover::STATUS_IN_PROGRESS:
+            $status = 'Processing rollover';
+        break;
 
-		case \local_rollover\Rollover::STATUS_WAITING_SCHEDULE:
-			$progress = 15;
-			$status = 'Scheduling';
-		break;
+        case \local_rollover\Rollover::STATUS_WAITING_SCHEDULE:
+            $progress = 15;
+            $status = 'Scheduling';
+        break;
 
-		case \local_rollover\Rollover::STATUS_COMPLETE:
-			$progress = 100;
-			$status = 'rollover_complete';
-		break;
+        case \local_rollover\Rollover::STATUS_COMPLETE:
+            $progress = 100;
+            $status = 'rollover_complete';
+        break;
 
-		case \local_rollover\Rollover::STATUS_ERROR:
-			$status = 'rollover_error';
-		break;
+        case \local_rollover\Rollover::STATUS_ERROR:
+            $status = 'rollover_error';
+        break;
 
-		case \local_rollover\Rollover::STATUS_DELETED:
-		case \local_rollover\Rollover::STATUS_NONE:
-		default:
-			$status = 'no_rollover';
-		break;
+        case \local_rollover\Rollover::STATUS_DELETED:
+        case \local_rollover\Rollover::STATUS_NONE:
+        default:
+            $status = 'no_rollover';
+        break;
 
-	}
+    }
 
-	echo $OUTPUT->header();
-	echo json_encode(array(
-	    'progress' => $progress,
-	    'status' => $status
-	));
-	die;
+    echo $OUTPUT->header();
+    echo json_encode(array(
+        'progress' => $progress,
+        'status' => $status
+    ));
+    die;
 }
