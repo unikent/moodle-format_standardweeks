@@ -42,6 +42,8 @@ if ($action == 'schedule') {
 	$to = required_param('to', PARAM_INT);
 	$from = required_param('from', PARAM_INT);
 
+	require_capability('moodle/course:update', \context_course::instance($to));
+
 	$from = $SHAREDB->get_record('shared_courses', array(
 		'id' => $from
 	), '*', MUST_EXIST);
