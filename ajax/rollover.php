@@ -80,6 +80,11 @@ if ($action == 'status') {
 			$status = 'Backup complete';
 		break;
 
+		case \local_rollover\Rollover::STATUS_RESTORE_SCHEDULED:
+			$progress = 75;
+			$status = 'Restore Scheduled';
+		break;
+
 		case \local_rollover\Rollover::STATUS_IN_PROGRESS:
 			$status = 'Processing rollover';
 		break;
