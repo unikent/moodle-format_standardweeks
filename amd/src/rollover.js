@@ -22,7 +22,7 @@
  /**
   * @module format_standardweeks/rollover
   */
-define([], function() {
+define(['core/ajax', 'core/notification'], function(ajax, notification) {
     var dist = '*';
     var search = '';
     var courseid = $("#rollovercontainer").attr('data-id');
@@ -31,52 +31,48 @@ define([], function() {
         $("#rollovercontainer").html("<p>Something went wrong! Please refresh and try again or contact your FLT.</p>");
     };
 
-    var getStatus = function(callback) {
-        $.ajax({
-            url: M.cfg.wwwroot + "/course/format/standardweeks/ajax/rollover.php",
-            type: "POST",
-            data: {
-                'courseid': courseid,
-                'action': 'status',
-                'sesskey': M.cfg.sesskey
-            },
-            success: callback
-        });
-    }
-
     // Refresh status loop.
     // Constantly checks for rollover status updates.
     var statusLoop = function() {
-        getStatus(function(data) {
-            var percent = data.progress;
-            var status = data.status;
+        var promises = ajax.call([{
+            methodname: 'get_rollover_status',
+            args: {
+                courseid: courseid
+            }
+        }]);
 
-            if (status == 'rollover_error') {
+        promises[0].done(function(response) {
+            var percent = response.progress;
+            var status = response.status_str;
+
+            if (response.status_code == 'rollover_error') {
                 // Uh oh.
                 setRolloverError();
                 return;
             }
 
-            if (status == 'rollover_complete') {
+            // 2 = STATUS_COMPLETE
+            if (response.status_code == 2) {
                 window.location = M.cfg.wwwroot + '/course/view.php?id=' + courseid;
-                status = "Rollover complete!";
             }
 
-            if (percent > -1) {
+            if (response.progress > -1) {
                 $("#rollovercontainer .progress-bar")
-                    .attr('aria-valuenow', percent)
-                    .css('width', percent + '%');
+                    .attr('aria-valuenow', response.progress)
+                    .css('width', response.progress + '%');
             }
 
-            $("#rollovercontainer .progress-bar").html(status);
+            $("#rollovercontainer .progress-bar").html(response.status_str);
 
             setTimeout(function() {
                 statusLoop()
             }, 10000);
         });
+
+        promises[0].fail(notification.exception);
     };
 
-    // Begin checking the status every 5 seconds.
+    // Begin checking the status every 10 seconds.
     var beginStatusLoop = function() {
         $("#rollovercontainer").html('\
             <p class="lead">Please wait... your course is being rolled over.</p>\
@@ -95,56 +91,62 @@ define([], function() {
         statusLoop();
     };
 
+    // Schedule a rollover..
+    var scheduleRollover = function(source, target) {
+        var promises = ajax.call([{
+            methodname: 'schedule_rollover',
+            args: {
+                source: source,
+                target: target
+            }
+        }]);
+
+        promises[0].done(function(response) {
+            beginStatusLoop();
+        });
+
+        promises[0].fail(function(response) {
+            setRolloverError();
+        });
+    };
+
     var refreshList = function() {
         if (search.length < 2) {
             return;
         }
 
-        // Call for a list of possible rollovers.
-        $.ajax({
-            url: M.cfg.wwwroot + "/course/format/standardweeks/ajax/rolloversources.php",
-            type: "GET",
-            data: {
-                'to': courseid,
-                'dist': dist,
-                'search': search,
-                'sesskey': M.cfg.sesskey
+        var promises = ajax.call([{
+            methodname: 'search_rollover_source_list',
+            args: {
+                search: search,
+                target: courseid,
+                dist: dist
             }
-        }).done(function(data) {
-            $('#rollover-options').html(data.result);
+        }]);
+
+        promises[0].done(function(response) {
+            // Build the table.
+            var contents = '';
+            $.each(response, function(i, result) {
+                var button = '<button class="btn btn-default" data-id="' + result['id'] + '">Rollover</button>';
+                contents += '<tr><td>' + result['moodle_dist'] + '</td><td>' + result['shortname'] + '</td><td>' + result['fullname'] + '</td><td>' + button + '</td></tr>';
+            });
+            $('#rollover-options').html('<table><thead><tr><th>Moodle</th><th>Shortname</th><th>Fullname</th><th>Action</th></tr></thead><tbody>'+contents+'</tbody></table>');
 
             // Do a rollover.
             $('#rollover-options td.action button').on('click', function(e) {
                 e.preventDefault();
 
-                var from = $(this).attr('data-id');
-
                 $("#rollovercontainer").html("<div class=\"text-center\"><i class=\"fa fa-spinner fa-spin\"></i></div>");
 
                 // Schedule the rollover.
-                $.ajax({
-                    url: M.cfg.wwwroot + "/course/format/standardweeks/ajax/rollover.php",
-                    type: "POST",
-                    data: {
-                        'to': courseid,
-                        'from': from,
-                        'action': 'schedule',
-                        'sesskey': M.cfg.sesskey
-                    },
-                    success: function(data) {
-                        if (typeof data.rolloverid == 'undefined') {
-                            // Uh oh.
-                            setRolloverError();
-                            return;
-                        }
-
-                        beginStatusLoop();
-                    }
-                });
+                scheduleRollover($(this).attr('data-id'), courseid);
 
                 return false;
             });
         });
+
+        promises[0].fail(notification.exception);
     };
 
     return {
