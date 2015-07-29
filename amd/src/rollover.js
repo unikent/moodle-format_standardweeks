@@ -129,7 +129,7 @@ define(['core/ajax', 'core/notification'], function(ajax, notification) {
             var contents = '';
             $.each(response, function(i, result) {
                 var button = '<button class="btn btn-default" data-id="' + result['id'] + '">Rollover</button>';
-                contents += '<tr><td>' + result['moodle_dist'] + '</td><td>' + result['shortname'] + '</td><td>' + result['fullname'] + '</td><td>' + button + '</td></tr>';
+                contents += '<tr><td>' + result['moodle_dist'] + '</td><td>' + result['shortname'] + '</td><td>' + result['fullname'] + '</td><td class="action">' + button + '</td></tr>';
             });
             $('#rollover-options').html('<table><thead><tr><th>Moodle</th><th>Shortname</th><th>Fullname</th><th>Action</th></tr></thead><tbody>'+contents+'</tbody></table>');
 
