@@ -31,5 +31,6 @@ $plugin->component = 'format_standardweeks';
 
 $plugin->dependencies = array(
     'local_kent' => 2015072900,
+    'local_rollover' => 2015072900,
     'local_notifications' => 2015060500
 );
