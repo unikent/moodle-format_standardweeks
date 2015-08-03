@@ -30,17 +30,20 @@ define([], function() {
 
 				var id = $(this).attr('data-id');
 
-				$.ajax({
-					url: M.cfg.wwwroot + "/course/format/standardweeks/ajax/fresh.php",
-					type: "POST",
-					data: {
-						'id': id,
-						'sesskey': M.cfg.sesskey
-					},
-					success: function() {
-						window.location = window.location;
-					}
-				});
+				require(['core/ajax', 'core/notification'], function(ajax, notification) {
+		            var promises = ajax.call([{
+		                methodname: 'local_kent_course_provision_fresh',
+		                args: {
+		                    courseid: id
+		                }
+		            }]);
+
+		            promises[0].done(function(response) {
+		                window.location = window.location;
+		            });
+
+		            promises[0].fail(notification.exception);
+		        });
 			});
 
 			$("#action-rollover").on("click", function() {

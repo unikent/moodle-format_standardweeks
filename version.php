@@ -25,10 +25,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015060900;
+$plugin->version   = 2015072900;
 $plugin->requires  = 2015051100;
 $plugin->component = 'format_standardweeks';
 
 $plugin->dependencies = array(
+    'local_kent' => 2015072900,
+    'local_rollover' => 2015072900,
     'local_notifications' => 2015060500
 );
