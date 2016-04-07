@@ -66,7 +66,7 @@ define(['core/ajax', 'core/notification'], function(ajax, notification) {
 
             setTimeout(function() {
                 statusLoop()
-            }, 10000);
+            }, 2000);
         });
 
         promises[0].fail(notification.exception);
