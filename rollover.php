@@ -62,6 +62,7 @@ echo <<<HTML5
     <p>Which module would you like to rollover from?</p>
 
     <form class="form-horizontal">
+        <input type="hidden" name="id" value="{$id}" />
         <div class="form-group">
             <div class="col-sm-8">
                 <div class="input-group">
