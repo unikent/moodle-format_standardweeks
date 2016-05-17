@@ -26,6 +26,7 @@ $context = \context_course::instance($course->id);
 require_login($course->id);
 require_capability('moodle/course:update', $context);
 
+$PAGE->set_title("Rollover {$course->shortname}");
 $PAGE->set_url('/course/format/standardweeks/rollover.php', array(
     'id' => $id
 ));
