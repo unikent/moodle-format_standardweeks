@@ -30,6 +30,9 @@ $string['assessmentsectionname'] = 'Assessment Info';
 $string['hidefromothers'] = 'Hide week';
 $string['showfromothers'] = 'Show week';
 
+$string['summary_templates'] = 'Summary Templates';
+$string['summary_templates_help'] = 'You can choose a template to populate the summary field. This will not be automatically updated, and you will be able to modify it.';
+
 $string['emptytitle'] = 'Course setup';
 $string['emptydesc'] = 'This course appears to be empty! Would you like to start from scratch or rollover content from a previous iteration of the course?';
 $string['emptynew'] = 'Start fresh';

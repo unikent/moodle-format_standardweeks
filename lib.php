@@ -36,5 +36,26 @@ require_once($CFG->dirroot . '/course/format/weeks/lib.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class format_standardweeks extends format_weeks {
+    /**
+     * Return an instance of moodleform to edit a specified section
+     *
+     * Default implementation returns instance of editsection_form that automatically adds
+     * additional fields defined in {@link format_base::section_format_options()}
+     *
+     * Format plugins may extend editsection_form if they want to have custom edit section form.
+     *
+     * @param mixed $action the action attribute for the form. If empty defaults to auto detect the
+     *              current url. If a moodle_url object then outputs params as hidden variables.
+     * @param array $customdata the array with custom data to be passed to the form
+     *     /course/editsection.php passes section_info object in 'cs' field
+     *     for filling availability fields
+     * @return moodleform
+     */
+    public function editsection_form($action, $customdata = array()) {
+        if (!array_key_exists('course', $customdata)) {
+            $customdata['course'] = $this->get_course();
+        }
 
+        return new \format_standardweeks\editsection_form($action, $customdata);
+    }
 }
