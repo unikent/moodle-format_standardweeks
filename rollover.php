@@ -51,7 +51,7 @@ if ($rollover->has_active_rollover()) {
 }
 
 $buttons = array();
-$options = $CFG->kent->paths;
+$options = $CFG->kent->httppaths;
 foreach ($options as $name => $url) {
     $ucname = ucwords($name);
     $buttons[] = "<li><a href=\"#\" data-name=\"{$name}\" id=\"moodle-{$name}\">{$ucname}</a>";
