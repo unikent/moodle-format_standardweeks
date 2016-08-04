@@ -50,6 +50,10 @@ define([], function() {
 				var id = $(this).attr('data-id');
 				window.location = M.cfg.wwwroot + "/course/format/standardweeks/rollover.php?id=" + id;
 			});
+        },
+
+        remove_edit: function() {
+            $("#breadcrumbswrap .singlebutton").hide();
         }
     };
 });

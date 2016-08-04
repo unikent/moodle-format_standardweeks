@@ -36,6 +36,7 @@ course_create_sections_if_missing($course, range(0, $course->numsections));
 // Render the page.
 $renderer = $PAGE->get_renderer('format_standardweeks');
 
+$empty = false;
 if (!empty($displaysection)) {
     $renderer->print_single_section_page($course, null, null, null, null, $displaysection);
 } else {
@@ -52,6 +53,7 @@ if (!empty($displaysection)) {
             }
         }
 
+        $empty = true;
         $renderer->print_empty($course, $modinfo);
     } else {
         $renderer->print_multiple_section_page($course, null, null, null, null);
@@ -59,4 +61,7 @@ if (!empty($displaysection)) {
 }
 
 $PAGE->requires->js_call_amd('format_standardweeks/format', 'init', array());
+if ($empty) {
+    $PAGE->requires->js_call_amd('format_standardweeks/format', 'remove_edit', array());
+}
 $PAGE->requires->js('/course/format/weeks/format.js');
